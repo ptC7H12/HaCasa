@@ -58,6 +58,7 @@
                   'window item_1'
                   'item_2 item_2'
               - row-gap: 3rem
+              - column-gap: 1rem
             card:
               - padding: 10px
               - background: none
@@ -80,7 +81,6 @@
                   card:
                     - box-shadow: none
                     - background: none
-                    - padding: 0px 10px 0px 0px
                     - display: |
                         [[[
                           if (variables.show_window_state == true){
