@@ -1,6 +1,7 @@
  hc_thermostat_card:
     variables:
-      window_open: null
+      show_window_state: false
+      window_open_boolean: null   
     show_label: true
     show_state: true
     state_display: >
@@ -67,9 +68,9 @@
                 type: custom:button-card
                 icon: |
                   [[[
-                      if (variables.window_open === false){
+                      if (variables.window_open_boolean === false){
                       return "mdi:window-closed-variant";
-                      } else if (variables.window_open === true){
+                      } else if (variables.window_open_boolean === true){
                         return "mdi:window-open-variant";
                       }
                   ]]]
@@ -82,10 +83,10 @@
                     - padding: 0px 10px 0px 0px
                     - display: |
                         [[[
-                          if (variables.window_open === null || variables.window_open === undefined){
-                          return "none";
+                          if (variables.show_window_state == true){
+                          return "block";
                           } else {
-                            return "block";
+                            return "none";
                           }
                         ]]]
                   img_cell:
