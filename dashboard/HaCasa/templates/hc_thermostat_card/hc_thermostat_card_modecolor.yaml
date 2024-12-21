@@ -1,22 +1,22 @@
-hc_thermostat_card:
+ hc_thermostat_card:
     variables:
       show_window_state: false
       window_open_boolean: null
-      show_mode_toggle: false
+      show_mode_state: false
     show_label: true
     show_state: true
     state_display: |
       [[[
         var state = "Currently " + states[entity.entity_id].attributes.current_temperature +'<p style="font-size:10px;display:inline;vertical-align:text-top">°C</p>'
         
-        if (states[entity.entity_id].state === "heat") {
+        if (variables.show_mode_state == true & states[entity.entity_id].state === "heat") {
           state = state + ' - ' + "<ha-icon icon='mdi:fire' style='color: red; width: 14px; height: 14px'></ha-icon>"             
-        } else {
-           state = state + ' - ' + "<ha-icon icon='mdi:power-off' style='color: red; width: 14px; height: 14px'></ha-icon>"
+        } else if (variables.show_mode_state == true & states[entity.entity_id].state === "off") {
+           state = state + ' - ' + "<ha-icon icon='mdi:power-off' style='width: 14px; height: 14px'></ha-icon>"
         }
-        if (variables.show_mode_toggle == true & variables.window_open_boolean == true) {
+        if (variables.show_window_state == true & variables.window_open_boolean == true) {
           state = state + ' - ' + "<ha-icon icon='mdi:window-open-variant' style='width: 14px; height: 14px'></ha-icon>"             
-        } else if (variables.show_mode_toggle == true & variables.window_open_boolean == false){
+        } else if (variables.show_window_state == true & variables.window_open_boolean == false){
            state = state + ' - ' + "<ha-icon icon='mdi:window-closed-variant' style='width: 14px; height: 14px'></ha-icon>"
         }
         return state
@@ -42,7 +42,7 @@ hc_thermostat_card:
         - font-family: montserrat
         - font-weight: 500
       label:
-        - font-size: 4em
+        - font-size: 5em
         - justify-self: start
         - align-self: start
         - font-weight: 700
