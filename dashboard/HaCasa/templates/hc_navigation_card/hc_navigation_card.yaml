@@ -1,45 +1,83 @@
 hc_navigation_card:
+  show_name: true
+  show_icon: false
+  show_state: false
+  show_label: true
+  entity: "[[[ return entity.entity_id ]]]"
   variables:
-    icon_color:
-    path:
+    hc_label_prefix: ""
+    hc_color: ""
+    hc_state_value: ""
+  label: |
+    [[[ return variables.hc_label_prefix + states[entity.entity_id].state ]]]
   styles:
-    card:
-      - padding: 10px 25px 10px 10px
     grid:
-      - grid-template-areas: "'i n arrow' 'i l arrow'"
-      - grid-template-columns: min-content 1fr min-content
-      - column-gap: 15px
-    icon:
-      - width: 2rem
-      - margin: 0.8rem
-      - color: '[[[ return variables.icon_color ]]]'
-    img_cell:
-      - justify-self: center
-      - width: 3rem
+      - grid-template-areas: |
+          "n n" 
+          "l l"
+      - grid-template-rows: 1fr 1fr
+    card:
+      - padding: 20px
+      - height: 110px
     name:
+      - text-align: left
+      - font-size: 1.3rem
+      - font-family: Montserrat
+      - font-weight: 800
       - justify-self: start
-      - align-self: center
-      - font-family: montserrat
-      - font-weight: 600
-      - font-size: 1rem
-    custom_fields:
-      arrow:
-        - justify-self: end
-  tap_action:
-    action: navigate
-    navigation_path: '[[[ return variables.path ]]]'
-  custom_fields:
-    arrow:
-      card:
-        type: custom:button-card
-        show_icon: true
-        icon: mdi:chevron-double-right
-        show_name: false
-        styles:
-          card:
-            - background: none
-            - box-shadow: none
-            - width: 4rem
-        tap_action:
-          action: navigate
-          navigation_path: '[[[ return variables.path ]]]'
+      - align-self: start
+    label:
+      - opacity: 0.6
+      - justify-self: start
+      - align-self: end
+      - font-family: Montserrat
+      - font-size: 0.8rem
+      - font-weight: 500   
+
+hc_navigation_card_security:
+  template: hc_navigation_card
+  state:
+    - value: arming
+      state_display: Arming...
+    - value: armed_home
+      label: Armed Home
+      styles:
+        card:
+          - background: var(--color-blue)
+        name:
+          - color: white
+        label:
+          - color: white      
+    - value: armed_away
+      label: Armed Away
+      styles:
+        card:
+          - background: var(--color-blue)
+        name:
+          - color: white
+        label:
+          - color: white
+    - value: disarmed
+      label: Disarmed
+    - value: triggered
+      label: Triggered!
+      styles:
+        card:
+          - background: var(--color-red)
+        name:
+          - color: white
+        state:
+          - color: white
+        label:
+          - color: white    
+
+  extra_styles: |
+    @keyframes rotate {
+      from {transform: rotateY(-deg);}
+      to {transform: rotateY(360deg);}
+    }
+    @keyframes flash {
+      0% {opacity: 100%;}
+      50% {opacity: 0%;}
+      100% {opacity: 100%;}
+    }
