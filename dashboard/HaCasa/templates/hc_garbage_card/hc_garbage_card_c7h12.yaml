@@ -1,6 +1,5 @@
 hc_garbage_card_c7h12:
   variables:
-    hc_notify_boolean: null
     trash_entities:
       - entity: sensor.restmull
         name: Restmüll
