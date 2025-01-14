@@ -1,0 +1,243 @@
+hc_garbage_card_c7h12:
+  variables:
+    hc_notify_boolean: null
+    trash_entities:
+      - entity: sensor.restmull
+        name: Restmüll
+        icon: far:trash-can
+        color: rgba (123, 123, 123, 1)
+      - entity: sensor.papierbehalter
+        name: Papiermüll
+        icon: far:newspaper
+        color: rgba (141, 174, 202, 1)
+      - entity: sensor.wertstofftonne
+        name: Wertstoff
+        icon: fas:recycle
+        color: rgba(151, 207, 201, 1)
+    "y": |
+      [[[
+        // Definiere die Entitäten für Müllabholungen
+        const trashData = variables.trash_entities.map(entity => ({
+          entity: entity.entity,
+          name: entity.name,
+          icon: entity.icon,
+          color: entity.color,
+          days_left: states[entity.entity] ? parseInt(states[entity.entity].state, 10) : 0
+        }));
+
+        // Sortiere das Array basierend auf der verbleibenden Anzahl der Tage
+        trashData.sort((a, b) => a.days_left - b.days_left);
+
+        return JSON.stringify(trashData); // Als String zurückgeben
+      ]]]
+  show_name: true
+  show_icon: true
+  show_label: true
+  show_state: false
+  tap_action: none
+  icon: |
+    [[[
+      const trashData = JSON.parse(variables.y); // JSON zurück in ein Array umwandeln
+      const first = trashData[0];
+      return first ? first.icon : null;
+    ]]]
+  name: Tage bis zur Abholung vom
+  label: |
+    [[[
+      const trashData = JSON.parse(variables.y);
+      const first = trashData[0];
+      if (!first) return '';
+      
+      // Bedingungen für days_left
+      //if (first.days_left === 0) {
+      //  return "today";
+      //} else if (first.days_left === 1) {
+      //  return "tomorrow";
+      //} else {
+        return `${first.days_left}`;
+      //}
+    ]]]
+  styles:
+    grid:
+      - grid-template-areas: |
+          'i l n next'
+          'i l type next'
+      - grid-template-rows: 40% 60%
+      - grid-template-columns: 15% 10% 1fr 25%
+      - column-gap: 2%
+      - row-gap: 1px
+    card:
+      - height: auto
+      - padding: 10px
+    name:
+      - font-size: 1rem
+      - font-family: Montserrat
+      - font-weight: 400
+      - justify-self: start
+      - align-self: end
+    img_cell:
+      - left: 0%
+      - width: 6rem
+      - height: 6rem
+      - padding-left: 10px
+    icon:
+      - width: 4rem
+      - color: |
+          [[[
+            const trashData = JSON.parse(variables.y); // JSON zurück in ein Array umwandeln
+            const first = trashData[0];
+            return first ? first.color : null;
+          ]]]
+    label:
+      - font-size: 4rem
+      - font-family: Montserrat
+      - font-weight: 700
+    custom_fields:
+      type:
+        - align-self: end
+      next:
+        - justify-self: end
+        - padding-right: 5px
+  custom_fields:
+    type:
+      card:
+        type: custom:button-card
+        name: |
+          [[[
+            const trashData = JSON.parse(variables.y);
+            const first = trashData[0];
+            return first ? first.name : '';
+          ]]]
+        styles:
+          card:
+            - box-shadow: none
+            - background: none
+            - height: auto
+          name:
+            - font-size: 2.3rem
+            - font-family: Montserrat
+            - font-weight: 600
+            - justify-self: start
+    next:
+      card:
+        type: custom:button-card
+        tap_action: none
+        styles:
+          grid:
+            - grid-template-areas: |
+                'second'
+                'third'
+            - grid-template-rows: 1fr 1fr
+            - row-gap: 5px
+          card:
+            - padding: 0px
+            - box-shadow: none
+        custom_fields:
+          second:
+            card:
+              type: custom:button-card
+              show_name: true
+              show_icon: true
+              show_label: true
+              show_state: false
+              styles:
+                card:
+                  - box-shadow: none
+                  - background: none
+                  - padding: 4px 10px
+                grid:
+                  - grid-template-areas: |
+                      'i n'
+                      'i l'
+                  - grid-template-columns: min-content 1fr
+                  - grid-template-rows: min-content 1fr
+                name:
+                  - font-size: 0.6rem
+                  - font-family: Montserrat
+                  - justify-self: start
+                img_cell:
+                  - width: auto
+                  - height: auto
+                  - margin: 4px
+                  - padding-right: 5px
+                icon:
+                  - width: 1.2rem
+                label:
+                  - font-size: 0.8rem
+                  - font-family: Montserrat
+                  - font-weight: 700
+                  - justify-self: start
+              name: |
+                [[[
+                  const trashData = JSON.parse(variables.y);
+                  const first = trashData[1];
+                  return first ? first.name : '';
+                ]]]
+              label: |
+                [[[
+                  const trashData = JSON.parse(variables.y);
+                  const first = trashData[1];
+                  if (!first) return '';
+                  
+                  return `${first.days_left} Tage`;
+                ]]]
+              icon: |
+                [[[
+                  const trashData = JSON.parse(variables.y); // JSON zurück in ein Array umwandeln
+                  const first = trashData[1];
+                  return first ? first.icon : null;
+                ]]]
+          third:
+            card:
+              type: custom:button-card
+              show_name: true
+              show_icon: true
+              show_label: true
+              show_state: false
+              name: |
+                [[[
+                  const trashData = JSON.parse(variables.y);
+                  const first = trashData[2];
+                  return first ? first.name : '';
+                ]]]
+              label: |
+                [[[
+                  const trashData = JSON.parse(variables.y);
+                  const first = trashData[2];
+                  if (!first) return '';
+                  
+                  return `${first.days_left} Tage`;
+                ]]]
+              icon: |
+                [[[
+                  const trashData = JSON.parse(variables.y); // JSON zurück in ein Array umwandeln
+                  const first = trashData[2];
+                  return first ? first.icon : null;
+                ]]]
+              styles:
+                card:
+                  - box-shadow: none
+                  - background: none
+                  - padding: 4px 10px
+                grid:
+                  - grid-template-areas: |
+                      'i n'
+                      'i l'
+                  - grid-template-columns: min-content 1fr
+                  - grid-template-rows: min-content 1fr
+                name:
+                  - font-size: 0.6rem
+                  - font-family: Montserrat
+                  - justify-self: start
+                img_cell:
+                  - width: auto
+                  - height: auto
+                  - margin: 4px
+                  - padding-right: 5px
+                icon:
+                  - width: 1.2rem
+                label:
+                  - font-size: 0.8rem
+                  - font-family: Montserrat
+                  - font-weight: 700
+                  - justify-self: start

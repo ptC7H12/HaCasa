@@ -1,0 +1,13 @@
+hc_helper_template:
+  variables:
+    zz_helper_greeting: |
+      [[[ 
+        const hour = new Date().getHours();
+        if (hour < 12) {
+          return 'Guten Morgen!';
+        } else if (hour < 18) {
+          return 'Guten Tag!';
+        } else {
+          return 'Guten Abend!';
+        }
+      ]]]

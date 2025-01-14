@@ -1,0 +1,80 @@
+hc_title_card_c7h12:  
+  styles:
+    card:
+      - padding-bottom: 0px
+      - padding-top: 10px
+      - animation: slide-in 1s ease-out, opacity 1s ease-in
+      - box-shadow: none
+      - background: none
+    grid:
+      - grid-template-areas: |
+          'n right'
+          'l right'
+      - grid-template-columns: min-content 1fr
+    name:
+      - margin: 0px 0px 0px 10px
+      - justify-self: start
+      - font-family: montserrat
+      - font-weight: 700
+      - font-size: 2rem
+    label:
+      - margin: 0px 0px 0px 10px
+      - justify-self: start
+      - font-family: montserrat
+      - font-weight: 400
+      - font-size: 1.2rem
+      - opacity: 0.5
+    custom_fields:
+      right:
+        - justify-self: end
+        - align-self: start
+        - margin: 0px 10px
+  name: |
+    [[[
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    ]]]
+  label: |
+    [[[
+      return new Date().toLocaleDateString('de-DE', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    ]]]
+  show_name: true
+  show_label: true
+  tap_action:
+    action: none
+  custom_fields:
+    right:
+      card:
+        type: custom:stack-in-card
+        mode: horizontal
+        cards:
+          - type: custom:button-card
+            icon: mdi:menu
+            styles:
+              icon:
+                - width: 50%
+              img_cell:
+                - height: 100%
+              card:
+                - height: 40px
+                - width: 40px
+                - margin: 0
+                - padding: 0
+                - border-radius: 50px
+                - justify-self: end
+            tap_action:
+              action: navigate
+              navigation_path: /config/dashboard
+  extra_styles: |
+    @keyframes slide-in {
+      0% {transform: translateX(-2%);}
+      100% {transform: translateX(0%);}
+    }
+    @keyframes opacity {
+      0% {opacity:0;}
+      100% {opacity:1;}
+    }
