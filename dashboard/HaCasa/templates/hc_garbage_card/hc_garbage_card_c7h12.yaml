@@ -1,15 +1,16 @@
 hc_garbage_card_c7h12:
   variables:
+    hc_notify_boolean: null
     trash_entities:
-      - entity: sensor.restmull
+      - days: sensor.restmull
         name: Restmüll
         icon: far:trash-can
         color: rgba (123, 123, 123, 1)
-      - entity: sensor.papierbehalter
+      - days: sensor.papierbehalter
         name: Papiermüll
         icon: far:newspaper
         color: rgba (141, 174, 202, 1)
-      - entity: sensor.wertstofftonne
+      - days: sensor.wertstofftonne
         name: Wertstoff
         icon: fas:recycle
         color: rgba(151, 207, 201, 1)
@@ -17,11 +18,11 @@ hc_garbage_card_c7h12:
       [[[
         // Definiere die Entitäten für Müllabholungen
         const trashData = variables.trash_entities.map(entity => ({
-          entity: entity.entity,
+          days: entity.days,
           name: entity.name,
           icon: entity.icon,
           color: entity.color,
-          days_left: states[entity.entity] ? parseInt(states[entity.entity].state, 10) : 0
+          days_left: states[entity.days] ? parseInt(states[entity.days].state, 10) : 0
         }));
 
         // Sortiere das Array basierend auf der verbleibenden Anzahl der Tage
