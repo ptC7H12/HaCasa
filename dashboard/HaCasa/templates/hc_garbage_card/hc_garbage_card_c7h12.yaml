@@ -10,12 +10,12 @@ hc_garbage_card_c7h12:
   #          [[[ return states['sensor.restmull'].state || 0 ]]]
   #        name: Restmüll
   #        icon: far:trash-can
-  #        color: rgba (141, 123, 123, 1)
+  #        color: rgba(141, 123, 123, 1)
   #      - days: |
   #          [[[ return states['sensor.papierbehalter'].state || 0 ]]]
   #        name: Papiermüll
   #        icon: far:newspaper
-  #        color: rgba (141, 174, 202, 1)
+  #        color: rgba(141, 174, 202, 1)
   #      - days: |
   #          [[[ return states['sensor.wertstofftonne'].state || 0 ]]]
   #        name: Wertstoff
