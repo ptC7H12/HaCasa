@@ -1,6 +1,6 @@
 hc_helper_template:
   variables:
-    zz_helper_greeting: |
+    zz_hc_helper_greetingByTime: |
       [[[ 
         const hour = new Date().getHours();
         if (hour < 12) {
@@ -9,5 +9,87 @@ hc_helper_template:
           return 'Guten Tag!';
         } else {
           return 'Guten Abend!';
+        }
+      ]]]
+        
+    zz_hc_helper_getOnLightsByArea: |
+      [[[
+        //definitions
+        const state = 'on'
+        const domain = 'light.' //don't forget the dot
+
+        if (!variables.hc_area){
+          return 'variable.hc_area set'
+        } else {
+          // Find all entities of defined domain in the defined (in 'hc_area') area
+          const finds = Object.values(hass.entities).filter(entity => 
+            entity.entity_id.startsWith(domain) && 
+            entity.area_id === variables.hc_area
+          );
+
+          // Prüfe, wie viele Lampen im Zustand "on" sind
+          const findsFiltered = finds.filter(find => 
+            hass.states[find.entity_id]?.state === state
+          ).length;
+
+          return findsFiltered
+        }        
+      ]]]
+      
+    zz_hc_helper_getOpenCoversByArea: |
+      [[[
+        //definitions
+        const state = 'open'
+        const domain = 'cover.' //don't forget the dot
+
+        if (!variables.hc_area){
+          return 'variable.hc_area set'
+        } else {
+          // Find all entities of defined domain in the defined (in 'hc_area') area
+          const finds = Object.values(hass.entities).filter(entity => 
+            entity.entity_id.startsWith(domain) && 
+            entity.area_id === variables.hc_area
+          );
+
+          // Prüfe, wie viele Lampen im Zustand "on" sind
+          const findsFiltered = finds.filter(find => 
+            hass.states[find.entity_id]?.state === state
+          ).length;
+
+          return findsFiltered     
+        }        
+      ]]]
+      
+    zz_hc_helper_getOnBinarySensorByArea: |
+      [[[
+        //definitions
+        const state = 'on'
+        const domain = 'binary_sensor.' //don't forget the dot
+
+        if (!variables.hc_area){
+          return 'variable.hc_area set'
+        } else {
+          // Find all entities of defined domain in the defined (in 'hc_area') area
+          const finds = Object.values(hass.entities).filter(entity => 
+            entity.entity_id.startsWith(domain) && 
+            entity.area_id === variables.hc_area
+          );
+
+          // Prüfe, wie viele Lampen im Zustand "on" sind
+          const findsFiltered = finds.filter(find => 
+            hass.states[find.entity_id]?.state === state
+          ).length;
+
+          return findsFiltered  
+        }
+      ]]]
+      
+    zz_hc_helper_getAreaNameByAreaId: |
+      [[[
+        if (!variables.hc_area){
+          return "variables.hc_area not set"
+        } else {
+          const formattedName = hass.areas[variables.hc_area].name;
+          return formattedName            
         }
       ]]]
