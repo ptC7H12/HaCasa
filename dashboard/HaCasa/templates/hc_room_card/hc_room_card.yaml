@@ -1,0 +1,281 @@
+hc_room_card:
+  show_state: false
+  show_icon: true
+  show_name: true
+  show_label: false
+  variables:
+    hc_area: buro
+    card_bg_color: white
+    graph_temp_colorHEX: "#ff8c00"
+    graph_humidity_colorHEX: "#3399ff"
+  name: |
+    [[[
+      return variables.zz_hc_helper_getAreaNameByAreaId
+    ]]]
+  icon: mdi:desk
+  styles:
+    grid:
+      - grid-template-areas: |
+          "i  n  n n      n      n       n    "
+          ".  .  . .      .      .       .    " 
+          "it lt . .      .      .       .    "
+          "ih lh . itherm icover iwindow ilamp"
+      - grid-template-columns: auto  1fr min-content
+      - row-gap: 5px
+      - column-gap: 5px
+    card:
+      - overflow: hidden
+      - padding: 15px
+      - pointer-events: none
+      - background: |
+          [[[ return variables.card_bg_color]]]
+    icon:
+      - width: 3rem
+      - z-index: 2
+    label:
+      - justify-self: start
+      - align-self: center
+      - font-family: montserrat
+      - font-size: 0.9rem
+      - font-weight: 300
+      - color: var(--color-dark-gray)
+      - padding: 0px 10px
+      - z-index: 2
+    name:
+      - justify-self: start
+      - font-size: 2rem
+      - font-weight: 600
+      - font-family: montserrat
+      - z-index: 2
+    custom_fields:
+      action_card:
+        - z-index: 1
+        - width: 70px
+      graph:
+        - position: absolute
+        - bottom: 0%
+        - right: 0%
+        - width: 100%
+        - heigth: 100%
+  custom_fields:
+    it:
+      card:
+        type: custom:button-card
+        icon: mdi:thermometer
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 50%
+            - width: 35px
+            - height: 35px
+            - background: white
+          icon:
+            - width: 20px
+            - color: rgba(255,140,0,1)
+    ih:
+      card:
+        type: custom:button-card
+        icon: mdi:water-percent
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 50%
+            - width: 35px
+            - height: 35px
+            - background: white
+          icon:
+            - width: 20px
+            - color: rgba(51,153,255,1)
+    lt:
+      card:
+        type: custom:button-card
+        show_label: true
+        show_icon: false
+        icon: mdi:thermometer
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 0%
+            - width: 100%
+            - margin: 0px
+            - background: transparent
+            - box-shadow: none
+          label:
+            - font-family: montserrat
+            - font-size: 0.9rem
+            - font-weight: 300
+            - color: var(--color-dark-gray)
+            - padding: 0px
+            - z-index: 2
+        label: "[[[ return variables.zz_hc_helper_getTemperatureByArea + '°C']]]"
+    lh:
+      card:
+        type: custom:button-card
+        show_label: true
+        show_icon: false
+        icon: mdi:thermometer
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 0%
+            - width: 100%
+            - margin: 0px
+            - background: transparent
+            - box-shadow: none
+          label:
+            - font-family: montserrat
+            - font-size: 0.9rem
+            - font-weight: 300
+            - color: var(--color-dark-gray)
+            - padding: 0px
+            - z-index: 2
+        label: "[[[ return variables.zz_hc_helper_getHumidityByArea + '%']]]"
+    ilamp:
+      card:
+        type: custom:button-card
+        icon: mdi:lightbulb-group-outline
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 50%
+            - width: 35px
+            - height: 35px
+            - background: white
+          icon:
+            - width: 20px
+            - color: |
+                [[[
+                  if (variables.zz_hc_helper_getOnLightsByArea == 0){
+                    return "rgb(206,206,206)"
+                  } else {
+                    return "rgb(254,153,89)"
+                  }          
+                ]]]
+    iwindow:
+      card:
+        type: custom:button-card
+        icon: mdi:window-closed-variant
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 50%
+            - width: 35px
+            - height: 35px
+            - background: white
+          icon:
+            - width: 20px
+            - color: rgba(51,153,255,1)
+    itherm:
+      card:
+        type: custom:button-card
+        icon: mdi:fire
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 50%
+            - width: 35px
+            - height: 35px
+            - background: white
+          icon:
+            - width: 20px
+            - color: rgba(51,153,255,1)
+    icover:
+      card:
+        type: custom:button-card
+        icon: mdi:blinds-horizontal
+        styles:
+          card:
+            - z-index: 2
+            - border-radius: 50%
+            - width: 35px
+            - height: 35px
+            - background: white
+          icon:
+            - width: 20px
+            - color: |
+                [[[
+                  if (variables.zz_hc_helper_getOpenCoversByArea > 0){
+                    return "rgb(206,206,206)"
+                  } else {
+                    return "rgb(1,162,255)"
+                  }          
+                ]]]
+    graph:
+      card:
+        type: custom:button-card
+        show_name: false
+        show_label: false
+        show_icon: false
+        styles:
+          card:
+            - height: 150px
+            - background: transparent
+            - box-shadow: none
+            - padding: 0px
+          custom_fields:
+            values:
+              - position: absolute
+              - bottom: 0%
+              - left: 0%
+              - width: 100%
+              - heigth: 500px
+            curve:
+              - position: absolute
+              - bottom: 0px
+              - left: 0px
+              - width: 101%
+              - heigth: 100%
+        custom_fields:
+          values:
+            card:
+              type: custom:button-card
+              show_name: false
+              show_label: false
+              show_icon: false
+              styles:
+                card:
+                  - z-index: 1
+                  - background: |
+                      [[[ 
+                        return "linear-gradient(90deg, " + variables.card_bg_color + " 10%, transparent 50%, transparent 0%)"
+                      ]]]          
+                  - box-shadow: none
+                  - padding: 0px
+                  - height: 150px
+          curve:
+            card:
+              type: custom:mini-graph-card
+              entities:
+                - entity: |
+                    [[[
+                      return variables.zz_hc_helper_getTemperatureEntityByArea
+                    ]]]
+                  show_line: false
+                  show_fill: true
+                  color: |
+                    [[[ return variables.graph_temp_colorHEX ]]]
+                - entity: |
+                    [[[
+                      return variables.zz_hc_helper_getHumidityEntityByArea
+                    ]]]
+                  show_line: false
+                  show_fill: true
+                  color: |
+                    [[[ return variables.graph_humidity_colorHEX ]]]
+                  y_axis: secondary
+              height: 100
+              hours_to_show: 12
+              font_size: 50
+              animate: true
+              show:
+                name: false
+                icon: false
+                state: false
+                legend: false
+              card_mod:
+                style: |
+                  ha-card {
+                    --ha-card-background: 'rgba(0, 0, 0, 0)';
+                    box-shadow: none;
+                    padding: 0px !important;
+                  }
